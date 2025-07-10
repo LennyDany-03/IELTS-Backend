@@ -10,7 +10,7 @@ app = FastAPI()
 
 # ✅ CORS setup
 origins = [
-    "http://localhost:3000",
+    "https://ielts-project-gilt.vercel.app",
 ]
 
 app.add_middleware(
