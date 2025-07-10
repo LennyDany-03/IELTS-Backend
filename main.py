@@ -10,19 +10,17 @@ app = FastAPI()
 
 # ✅ CORS setup
 origins = [
-    "http://localhost:3000",  # Essay frontend
-    "http://localhost:3001",  # Speech frontend
-    "http://localhost:3003",  # Reading frontend
-    "http://localhost:3002",  # Listening frontend (if separate)
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,  # ✅ No paths, just domains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # ✅ Mount routers with clear prefixes
 app.include_router(essay_router, prefix="/api/essay", tags=["Essay"])

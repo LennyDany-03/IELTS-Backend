@@ -28,63 +28,45 @@ client = AzureOpenAI(
 # === 1. Essay Evaluation ===
 def get_essay_feedback(text: str) -> str:
     prompt = f"""
-You are an expert IELTS examiner and academic coach. Evaluate the following IELTS Writing Task 2 essay and provide detailed, structured feedback.
+You're an IELTS examiner. Evaluate the following Task 2 essay with clear, structured feedback under these sections:
 
-Please break your response into these sections:
+1. **Task Response**
+- Did the writer fully address the question?
+- Was a clear position presented and supported?
 
-1. Task Response
-- Did the essay fully address the prompt?
-- Was a clear thesis/position stated and maintained?
-- Were arguments well-supported with relevant examples?
+2. **Coherence & Cohesion**
+- Was the essay well organized?
+- Were linking words and paragraphs used logically?
 
-2. Coherence and Cohesion
-- Was the essay logically organized?
-- Were transitions and cohesive devices used effectively?
-- Was paragraphing appropriate?
+3. **Lexical Resource**
+- Comment on vocabulary range, accuracy, and appropriateness.
+- Note any strong or weak word choices.
 
-3. Lexical Resource
-- Analyze vocabulary range and accuracy.
-- Highlight advanced words or idiomatic usage.
-- Flag inappropriate or awkward word choices with alternatives.
+4. **Grammar**
+- Identify common grammar mistakes (tenses, structure, punctuation).
+- Give 2–3 sentence corrections with explanations.
 
-4. Grammatical Range and Accuracy
-- Identify issues with tenses, articles, agreement, sentence structure, punctuation.
-- Provide 2–3 example sentences from the essay and explain errors + corrections.
+5. **Paragraph Feedback**
+- Briefly review strengths & weaknesses of each paragraph.
 
-5. Paragraph-Level Suggestions
-- Go through each paragraph and mention:
-    • Strengths
-    • Specific improvements (e.g., clarity, structure, detail)
+6. **Tone**
+- Was the style academic and formal enough?
 
-6. Tone and Register
-- Assess if the tone was academic/formal enough.
-- Flag any casual or informal language.
+7. **Band Score Estimate**
+- Overall Band (1–9)
+- Sub-scores: TR / CC / LR / GRA
 
-7. Band Score Estimation
-- Provide an overall band score (1–9)
-- Also give sub-scores for:
-    • Task Response
-    • Coherence & Cohesion
-    • Lexical Resource
-    • Grammar
+8. **Word Count & Timing**
+- Approx. word count?
+- Was it too long/short for 40 mins?
 
-8. Word Count and Time Efficiency
-- Estimate word count.
-- Suggest ideal time taken to write this essay during an exam (e.g., 35–40 mins).
-- Was the essay too long or short?
-
-9. Comparative Feedback (optional)
-- If the essay is Band 8+, describe what a Band 9 would improve slightly better (e.g., nuance, conciseness, lexical depth).
-
-10. Recommendations to Improve
-- Suggest 3–5 actionable steps with links if possible.
-    • Grammar: [e.g., Perfect Tense practice]
-    • Vocabulary: [e.g., Academic Word List drills]
-    • Structure: [e.g., Cohesive devices guide]
+9. **Recommendations**
+- Suggest 3–4 practical tips for improvement (grammar, vocab, structure).
 
 Essay:
 \"\"\"{text}\"\"\"
 """
+
     try:
         response = client.chat.completions.create(
             model=AZURE_DEPLOYMENT,
@@ -130,36 +112,36 @@ def evaluate_speaking_transcript(transcript: str) -> str:
     }
 
     prompt = f"""
-You are an IELTS Speaking examiner. Evaluate the following candidate's **spoken** response based on IELTS Speaking Band Descriptors.
+You are an IELTS Speaking examiner. Evaluate the candidate's spoken response based on IELTS Speaking Band Descriptors.
 
-The response is transcribed below (please infer pronunciation and fluency from likely speech patterns):
+The response is transcribed below (infer likely fluency and pronunciation):
 
 \"\"\"{transcript}\"\"\"
 
-Respond with structured feedback in this format:
+Return structured feedback in this format:
 
-1. **Band Score**: Overall score from 1 to 9
+1. **Band Score**: 1–9
 
-2. **Fluency and Coherence**
-- Is the speech smooth and logical?
-- Are there hesitations, fillers, or self-corrections?
+2. **Fluency & Coherence**
+- Was the speech smooth and logical?
+- Any noticeable pauses, fillers, or repetition?
 
 3. **Lexical Resource**
-- Vocabulary range and appropriateness
-- Use of idiomatic or topic-specific expressions
+- Range and accuracy of vocabulary
+- Use of natural expressions or topic-specific words
 
-4. **Grammatical Range and Accuracy**
-- Use of various sentence structures
-- Grammatical accuracy
+4. **Grammar**
+- Variety and accuracy of sentence structures
 
 5. **Pronunciation**
-- Clarity, stress, intonation, rhythm (infer based on errors or awkward phrasing in transcript)
+- Clarity and rhythm (inferred from phrasing)
 
-6. **Suggestions for Improvement**
-- Give 2–3 targeted tips
+6. **Suggestions**
+- Give 2–3 clear, actionable tips for improvement
 
-Format in Markdown.
+Respond in **Markdown** format.
 """
+
 
     body = {
         "messages": [
