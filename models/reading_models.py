@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
+from uuid import UUID
 
 class ReadingAnswerPayload(BaseModel):
-    id: str
-    answers: List[str]  # e.g., ["A", "C", "D", "B", "C"]
+    id: UUID
+    answers: List[str]

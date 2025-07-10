@@ -5,18 +5,21 @@ def get_random_reading_set():
     data = supabase.table("reading_quizzes").select("*").execute()
     items = data.data
     if not items:
-        return {"error": "No reading sets found"}
+        return {"error": "No reading sets available"}
     return random.choice(items)
 
 def evaluate_reading_answers(payload):
-    data = supabase.table("reading_quizzes").select("correct").eq("id", payload.question_id).single().execute()
+    data = supabase.table("reading_quizzes").select("correct").eq("id", str(payload.id)).single().execute()
     correct = data.data["correct"]
-    user = payload.user_answers
+    user = payload.answers
 
-    score = sum([1 for u, c in zip(user, correct) if u == c])
+    feedback = ["✅" if u == c else "❌" for u, c in zip(user, correct)]
+    score = sum(u == c for u, c in zip(user, correct))
+
     return {
         "score": score,
         "total": len(correct),
+        "feedback": feedback,
         "band_estimate": convert_score_to_band(score, len(correct))
     }
 

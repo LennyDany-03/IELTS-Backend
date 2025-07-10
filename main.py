@@ -27,6 +27,6 @@ app.add_middleware(
 # ✅ Mount routers with clear prefixes
 app.include_router(essay_router, prefix="/api/essay", tags=["Essay"])
 app.include_router(speech_router, prefix="/api/speech", tags=["Speech"])
-app.include_router(reading_router, prefix="/api/reading", tags=["Reading"])
+app.include_router(reading_router)
 app.include_router(listening_router)
 
